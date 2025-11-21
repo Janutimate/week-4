@@ -1,0 +1,82 @@
+const express = require('express');
+const app = express();
+const port = 3000;
+
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+// Root route - shows available endpoints
+app.get('/', (req, res) => {
+    res.send(`
+        <h1>Welcome to the Calculator REST API</h1>
+        <p>Use the following endpoints:</p>
+        <ul>
+            <li>GET /add?num1=5&num2=10</li>
+            <li>GET /subtract?num1=10&num2=5</li>
+            <li>GET /multiply?num1=5&num2=10</li>
+            <li>GET /divide?num1=10&num2=2</li>
+            <li>POST /add, /subtract, /multiply, /divide with JSON body { "num1": 5, "num2": 10 }</li>
+        </ul>
+    `);
+});
+
+// GET calculation routes
+app.get('/add', (req, res) => {
+    const num1 = parseFloat(req.query.num1);
+    const num2 = parseFloat(req.query.num2);
+    if (isNaN(num1) || isNaN(num2)) return res.status(400).json({ error: "Invalid numbers" });
+    res.json({ result: num1 + num2 });
+});
+
+app.get('/subtract', (req, res) => {
+    const num1 = parseFloat(req.query.num1);
+    const num2 = parseFloat(req.query.num2);
+    if (isNaN(num1) || isNaN(num2)) return res.status(400).json({ error: "Invalid numbers" });
+    res.json({ result: num1 - num2 });
+});
+
+app.get('/multiply', (req, res) => {
+    const num1 = parseFloat(req.query.num1);
+    const num2 = parseFloat(req.query.num2);
+    if (isNaN(num1) || isNaN(num2)) return res.status(400).json({ error: "Invalid numbers" });
+    res.json({ result: num1 * num2 });
+});
+
+app.get('/divide', (req, res) => {
+    const num1 = parseFloat(req.query.num1);
+    const num2 = parseFloat(req.query.num2);
+    if (isNaN(num1) || isNaN(num2)) return res.status(400).json({ error: "Invalid numbers" });
+    if (num2 === 0) return res.status(400).json({ error: "Cannot divide by zero" });
+    res.json({ result: num1 / num2 });
+});
+
+// POST calculation routes
+app.post('/add', (req, res) => {
+    const { num1, num2 } = req.body;
+    if (typeof num1 !== 'number' || typeof num2 !== 'number') return res.status(400).json({ error: "Invalid numbers" });
+    res.json({ result: num1 + num2 });
+});
+
+app.post('/subtract', (req, res) => {
+    const { num1, num2 } = req.body;
+    if (typeof num1 !== 'number' || typeof num2 !== 'number') return res.status(400).json({ error: "Invalid numbers" });
+    res.json({ result: num1 - num2 });
+});
+
+app.post('/multiply', (req, res) => {
+    const { num1, num2 } = req.body;
+    if (typeof num1 !== 'number' || typeof num2 !== 'number') return res.status(400).json({ error: "Invalid numbers" });
+    res.json({ result: num1 * num2 });
+});
+
+app.post('/divide', (req, res) => {
+    const { num1, num2 } = req.body;
+    if (typeof num1 !== 'number' || typeof num2 !== 'number') return res.status(400).json({ error: "Invalid numbers" });
+    if (num2 === 0) return res.status(400).json({ error: "Cannot divide by zero" });
+    res.json({ result: num1 / num2 });
+});
+
+// Start server
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+});
