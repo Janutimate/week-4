@@ -2,13 +2,12 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-// Middleware to parse JSON bodies
 app.use(express.json());
 
-// Root route - shows available endpoints
+// Endpoints
 app.get('/', (req, res) => {
     res.send(`
-        <h1>Welcome to the Calculator REST API</h1>
+        <h1>Welcome to Januth's Calculator REST API</h1>
         <p>Use the following endpoints:</p>
         <ul>
             <li>GET /add?num1=5&num2=10</li>
@@ -20,7 +19,7 @@ app.get('/', (req, res) => {
     `);
 });
 
-// GET calculation routes
+// GET
 app.get('/add', (req, res) => {
     const num1 = parseFloat(req.query.num1);
     const num2 = parseFloat(req.query.num2);
@@ -50,7 +49,7 @@ app.get('/divide', (req, res) => {
     res.json({ result: num1 / num2 });
 });
 
-// POST calculation routes
+// POST
 app.post('/add', (req, res) => {
     const { num1, num2 } = req.body;
     if (typeof num1 !== 'number' || typeof num2 !== 'number') return res.status(400).json({ error: "Invalid numbers" });
