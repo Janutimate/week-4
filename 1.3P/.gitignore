@@ -1,0 +1,19 @@
+# IDE and Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Documentation files
+*.pdf
+*.docx
+*.doc
+
+# Build outputs
+dist/
+build/
